@@ -2,7 +2,7 @@ import WidgetKit
 import SwiftUI
 import AppIntents
 
-// MARK: - Widget Bundle
+// MARK: - Widget Bundle.
 
 @main
 struct TalkiesWidgetBundle: WidgetBundle {
