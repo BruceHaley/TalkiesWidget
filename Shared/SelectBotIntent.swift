@@ -28,7 +28,9 @@ struct BotNameQuery: EntityQuery {
         BotsJsonFile.loadNames().map { BotNameEntity(name: $0) }
     }
 
-    // No defaultResult — forces user to pick before widget shows a name
+    func defaultResult() async -> BotNameEntity? {
+        BotNameEntity(name: "Choose...")
+    }
 }
 
 // MARK: - Intent

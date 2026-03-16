@@ -31,15 +31,17 @@ struct NameProvider: AppIntentTimelineProvider {
     typealias Intent = SelectBotIntent
 
     func placeholder(in context: Context) -> NameEntry {
-        NameEntry(date: Date(), name: "Choose...")
+        NameEntry(date: Date(), name: "Bot Name")
     }
 
     func snapshot(for configuration: SelectBotIntent, in context: Context) async -> NameEntry {
-        NameEntry(date: Date(), name: configuration.botName?.name)
+        let name = configuration.botName?.name
+        return NameEntry(date: Date(), name: name == "Choose..." ? nil : name)
     }
 
     func timeline(for configuration: SelectBotIntent, in context: Context) async -> Timeline<NameEntry> {
-        let entry = NameEntry(date: Date(), name: configuration.botName?.name)
+        let name = configuration.botName?.name
+        let entry = NameEntry(date: Date(), name: name == "Choose..." ? nil : name)
         return Timeline(entries: [entry], policy: .never)
     }
 }
@@ -58,10 +60,10 @@ struct UnconfiguredView: View {
                 Image("BotIconGray")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 80, height: 80)
-                Text("Tap & hold to set up widget")
+                    .frame(width: 70, height: 70)
+                Text("Tap & hold then Edit Widget")
                     .font(.system(size: 11, weight: .medium, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.5))
+                    .foregroundStyle(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -194,8 +196,8 @@ struct TalkiesWidgetExtension: Widget {
                 .containerBackground(Color(hex: "#1a1a2e"), for: .widget)
                 .widgetURL(entry.deepLinkURL)
         }
-        .configurationDisplayName("TalkiesWidget")
-        .description("Opens a bot in Talkies.")
+        .configurationDisplayName("Talkies Widget")
+        .description("Opens a bot by name")
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
